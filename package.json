@@ -1,0 +1,14 @@
+{
+  "name": "pixel-client",
+  "version": "0.0.1",
+  "description": "nodejs pixelflut client",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "holymoly",
+  "license": "MIT",
+  "dependencies": {
+    "jimp": "^0.2.28"
+  }
+}

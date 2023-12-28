@@ -9,13 +9,13 @@ var picture = '';
 
 // print process.argv
 process.argv.forEach(function (val, index, array) {
-  console.log(index + ': ' + val);
+//  console.log(index + ': ' + val);
 });
-  
+
 function start(clientN){
-  clientN.connect(1234,process.argv[3] , function() {
+  clientN.connect(1337,process.argv[3] , function() {
     console.log('Connected');
-    
+
     writePixel(picture, clientN);
   });
 };
@@ -40,21 +40,25 @@ function parsePicture(cb){
       // idx is the position start position of this rgba tuple in the bitmap Buffer
       // this is the image
 
-      var red   = this.bitmap.data[ idx + 0 ];
-      var green = this.bitmap.data[ idx + 1 ];
-      var blue  = this.bitmap.data[ idx + 2 ];
-      var alpha = this.bitmap.data[ idx + 3 ];
+      var red   = this.bitmap.data[ idx + 0 ].toString(16).padStart(2, '0');
+      //console.log(red);
+      var green = this.bitmap.data[ idx + 1 ].toString(16).padStart(2, '0');
+      //console.log(green);
+      var blue  = this.bitmap.data[ idx + 2 ].toString(16).padStart(2, '0');
+      //console.log(blue);
+      var alpha = this.bitmap.data[ idx + 3 ].toString(16).padStart(2, '0');
+      //console.log(alpha);
 
       var xoffset = x + parseInt(process.argv[4], 10);
       var yoffset = y + parseInt(process.argv[5], 10);
 
-      //if(red != 255 && green != 255 && blue != 255){
+      //if(red != '00' && red != '00' && red != '00'){
         data.push('PX ' + xoffset + ' ' + yoffset + ' ' + red.toString(16) + green.toString(16) + blue.toString(16)+ alpha.toString(16));
       //}
-      
+
       if(x == image.bitmap.width-1 &&
           y == image.bitmap.height-1) {
-          console.log("Parsing picture");
+          //console.log("Parsing picture");
           //store result
           picture = shuffle(data).join('\n') + '\n';
           //writeToFile(picture);
@@ -116,4 +120,7 @@ function init(){
     i++;
   }
 };
-  
+
+process.on('uncaughtException', function(err) {
+  console.log('Caught exception: ' + err);
+});
